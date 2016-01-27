@@ -1,4 +1,5 @@
-Calculate G'st or D from a Genepop or Arlequin input file using python
+Calculate G'st or D from a Genepop or Arlequin input file using Python.
+Command line hacked version of Crawford's SMOGD.
 
 usage:
 ./main_script.py datafile statdesired replicates

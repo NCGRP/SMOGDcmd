@@ -2,7 +2,7 @@ Calculate G'st or D from a Genepop or Arlequin input file using Python.
 Command line hacked version of Crawford's SMOGD.
 
 usage:
-python -W main_script.py datafile statdesired replicates
+python -W ignore main_script.py datafile statdesired replicates
 
 where,
 datafile = path to the genepop or arlequin formatted data file

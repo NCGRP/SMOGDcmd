@@ -177,13 +177,31 @@ def fstats(locus_by_pop_freqs, population_names, loci_names, population_sizes):
 		return Hs
 
 	def calc_harmonic_mean(population_sizes):
-		#print population_sizes
 		"""calculates harmonic mean from list of integers"""
+		"""When allele calls indicate missing data for all individuals in a population,
+		the population size will be computed as zero for that population.  This is a problem
+		because it produces an DIV/0 error when calculating the harmonic mean of population
+		size.  The typical response is that, when one value in the list of values used for
+		computing the harmonic mean is zero, the harmonic mean should be defined as zero.
+		The intuitive example is resistors in parallel, where normally you would calculate
+		the harmonic mean to get the effective resistance of the circuit.  If one resistor
+		has zero resistance, the correct response is that the circuit has zero resistance.
+		Here, where we are dealing with population sizes, and we are trying to calculate
+		the harmonic mean population size across all loci, this should have only a small
+		effect. --PR 1-28-2016
+		"""
 		n = len(population_sizes)
 		denominator = 0
+		
 		for pop in population_sizes:
-			fract = 1/float(pop)
+			
+			#when the population size is zero, add nothing to the growing denominator
+			if pop == 0:
+				fract = 0
+			else:
+				fract = 1/float(pop)
 			denominator = denominator + fract
+		
 		return n/denominator
 
 	# storage lists
@@ -197,6 +215,7 @@ def fstats(locus_by_pop_freqs, population_names, loci_names, population_sizes):
 
 	locus_counter = 0
 	for locus in locus_by_pop_freqs:
+		
 		N_harmonic = calc_harmonic_mean(population_sizes[loci_names[locus_counter]])
 		# N_harmonic = stats.hmean(population_sizes[loci_names[locus_counter]])
 		Locus = loci_names[locus_counter]
